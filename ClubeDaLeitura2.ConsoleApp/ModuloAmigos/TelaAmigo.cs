@@ -1,4 +1,6 @@
-﻿namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+
+namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
 {
     public class TelaAmigo
     {

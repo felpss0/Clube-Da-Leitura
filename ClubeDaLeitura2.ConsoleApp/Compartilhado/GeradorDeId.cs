@@ -1,6 +1,6 @@
 ﻿namespace ClubeDaLeitura2.ConsoleApp.Compartilhado
 {
-    class GeradorDeId
+    public class GeradorDeId
     {
         public static int IdAmigo = 0;
         public static int IdCaixa = 0;

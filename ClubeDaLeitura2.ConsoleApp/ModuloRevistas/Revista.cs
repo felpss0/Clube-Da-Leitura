@@ -9,7 +9,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloRevistas
         public string Titulo;
         public string NumeroEdicao;
         public DateTime DataPublicacao;
-        public Emprestimos.Emprestimo StatusEmprestimo;
+        public Emprestimo StatusEmprestimo;
         public Caixa Caixa;
 
         public Revista(string titulo, string numeroEdicao, DateTime dataPublicacao)

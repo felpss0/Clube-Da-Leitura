@@ -1,4 +1,6 @@
-﻿namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+
+namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
 {
     class TelaCaixa
     {
@@ -51,6 +53,7 @@
 
             Console.WriteLine();
             Caixa novaCaixa = ObterDadosCaixa();
+            novaCaixa.ObterDiasEmprestimo();
 
             repositorioCaixa.CadastrarCaixa(novaCaixa);
         }
@@ -151,7 +154,7 @@
             Console.WriteLine("Digite o nome Etiqueta da Caixa");
             string etiqueta = Console.ReadLine();
 
-            Console.WriteLine("Digite a Cor da Caixa");
+            Console.WriteLine("Digite a Cor da Caixa (Vermelho e Roxo para Caixas Raras, qualquer outra cor será definida como Comum)");
             string cor = Console.ReadLine();
 
             Console.WriteLine("Digite quantos dias de emprestimo a caixa vai ter");

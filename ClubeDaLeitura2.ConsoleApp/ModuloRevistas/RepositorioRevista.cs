@@ -1,4 +1,6 @@
-﻿namespace ClubeDaLeitura2.ConsoleApp.ModuloRevistas
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+
+namespace ClubeDaLeitura2.ConsoleApp.ModuloRevistas
 {
     public class RepositorioRevista
     {
@@ -28,7 +30,7 @@
 
         public void CadastrarRevista(Revista novaRevista)
         {
-            novaRevista.Id = GeradorDeId.GerarIdCaixa();
+            novaRevista.Id = GeradorDeId.GerarIdRevista();
             revistas[contadorRevista++] = novaRevista;
         }
 

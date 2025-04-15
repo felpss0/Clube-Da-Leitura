@@ -18,6 +18,13 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
             DiasDeEmprestimo = diasDeEmprestimo;
         }
 
+        public int ObterDiasEmprestimo() 
+        {
+            if (Cor == "Vermelha" && Cor == "Roxo")
+                return DiasDeEmprestimo = 3;
+            
+            return DiasDeEmprestimo = 7;
+        }
         
 
     }

@@ -1,4 +1,7 @@
-﻿namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
+
+namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
 {
     public class RepositorioEmprestimo
     {
@@ -10,11 +13,31 @@
             return emprestimos;
         }
 
+        //public Emprestimo DataDevolucao(TimeSpan diferenca)
+        //{
+        //    if (diferenca.TotalDays > 3)
+        //    {
+        //        double multaPorDia = 2.00; // valor da multa por dia de atraso
+        //        int diasDeAtraso = (int)(diferenca.TotalDays - 3);
+        //        double valorMulta = diasDeAtraso * multaPorDia;
+
+        //        Console.WriteLine($"Livro devolvido com {diasDeAtraso} dia(s) de atraso.");
+        //        Console.WriteLine($"Valor da multa: R$ {valorMulta:F2}");
+        //    }
+        //    else
+        //        Console.WriteLine("Livro devolvido no prazo. Sem multa.");
+            
+
+
+        //    return null;
+        //}
+
         public void CadastrarEmprestimo(Emprestimo novoEmprestimo)
         {
             novoEmprestimo.Id = GeradorDeId.GerarIdEmprestimo();
             emprestimos[contadorEmprestimo++] = novoEmprestimo;
         }
+
 
         public bool EditarEmprestimo(int idEmprestimo, Emprestimo emprestimoEditado)
         {

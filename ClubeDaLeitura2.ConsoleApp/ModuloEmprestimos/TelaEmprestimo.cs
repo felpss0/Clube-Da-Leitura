@@ -1,4 +1,5 @@
-﻿using ClubeDaLeitura2.ConsoleApp.ModuloAmigos;
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.ModuloAmigos;
 using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
@@ -142,17 +143,20 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
                 );
 
             Emprestimo[] emprestimoCadastrado = repositorioEmprestimo.SelecionarEmprestimo();
-
+            Amigo[] amigoCadastrado = repositorioAmigo.SelecionarAmigo();
+            Revista[] revistaCadastrada = repositorioRevista.SelecionarRevista();
 
             for (int i = 0; i < emprestimoCadastrado.Length; i++)
             {
                 Emprestimo e = emprestimoCadastrado[i];
+                Amigo a = amigoCadastrado[i];
+                Revista r = revistaCadastrada[i];
 
                 if (e == null) continue;
 
                 Console.WriteLine(
                     "{0, -10} | {1, -25} | {2, -25} | {3, -20} ",
-                    e.Id, e.Amigo, e.Revista, e.DataDevolucao
+                    e.Id, a.Nome, r.Titulo, e.ObterDataDevolucao()
                     );
 
 
@@ -181,7 +185,8 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             Console.Clear();
 
             Console.WriteLine("Digite a Data que a revista foi pega");
-            DateTime dataEmprestimo = Convert.ToDateTime(Console.ReadLine());
+            DateTime dataEmprestimo = DateTime.Parse(Console.ReadLine()); 
+            
 
             Emprestimo emprestimo = new Emprestimo(amigo, revista);
 

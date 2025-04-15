@@ -9,8 +9,9 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
         public Amigo Amigo;
         public Revista Revista;
         public DateTime DataEmprestimo;
-        public DateTime DataDevolucao;
+        public DateTime DataDevolucao; 
         public string SituacaoEmprestimo;
+        
 
 
         public Emprestimo(Amigo amigo, Revista revista)
@@ -18,9 +19,9 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
 
             Amigo = amigo;
             Revista = revista;
-            //DataEmprestimo = DataDevolucao = DataEmprestimo.AddDays();
-            //DataDevolucao = DataEmprestimo.AddDays(diasCaixa);
             SituacaoEmprestimo = "Aberto";
+            DataEmprestimo = DateTime.Now;
+            DataDevolucao = DataEmprestimo.AddDays(3);
         }
 
         public DateTime ObterDataDevolucao()

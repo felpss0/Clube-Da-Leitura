@@ -1,4 +1,5 @@
-﻿using ClubeDaLeitura2.ConsoleApp.ModuloCaixas;
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.ModuloCaixas;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloRevistas
 {
