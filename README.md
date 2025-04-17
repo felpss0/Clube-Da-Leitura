@@ -16,6 +16,15 @@ tecnologia, contratando os alunos da Academia do Programador 2025 para
 transformar esse sistema manual e propenso a erros em uma aplicação digital que
 pudesse finalmente trazer ordem ao Clube da Leitura.
 
+## Funcionalides 
+
+- O programa conta com varias funções para administrar o clube do livro como:
+- Cadastro das Pessoas que vão utilizar os livros.
+- Cadastro dos Livros.
+- Cadastro das Caixas para guardar os livros de forma organizada.
+- Cadastro de Emprestimo para as pessoas que pegarem os livros e que calcula multa se o mesmo for devolvido com atraso.
+
+
 ## Requisitos
 
 - .NET SDK (recomendado .NET 8.0 ou superior) para compilação e execução do projeto.
