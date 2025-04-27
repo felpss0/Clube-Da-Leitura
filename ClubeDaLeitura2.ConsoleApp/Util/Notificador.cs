@@ -1,4 +1,4 @@
-﻿namespace ClubeDaLeitura2.ConsoleApp.Compartilhado
+﻿namespace ClubeDaLeitura2.ConsoleApp.Util
 {
     public static class Notificador
     {

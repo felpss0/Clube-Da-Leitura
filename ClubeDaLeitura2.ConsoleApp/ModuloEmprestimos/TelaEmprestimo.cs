@@ -1,21 +1,24 @@
 ﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
 using ClubeDaLeitura2.ConsoleApp.ModuloAmigos;
 using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
+using ClubeDaLeitura2.ConsoleApp.Util;
+using System.Collections;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
 {
-    public class TelaEmprestimo
+    public class TelaEmprestimo : TelaBase
     {
         RepositorioEmprestimo repositorioEmprestimo;
         RepositorioAmigo repositorioAmigo;
         RepositorioRevista repositorioRevista;
         TelaAmigo telaAmigo;
         TelaRevista telaRevista;
+        
 
         public TelaEmprestimo(
             RepositorioEmprestimo repositorioEmprestimo, RepositorioAmigo repositorioAmigo, RepositorioRevista repositorioRevista,
             TelaAmigo telaAmigo, TelaRevista telaRevista
-            )
+            ) : base("Emprestimo", repositorioEmprestimo) 
         {
             this.repositorioEmprestimo = repositorioEmprestimo;
             this.repositorioAmigo = repositorioAmigo;
@@ -24,18 +27,9 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             this.telaRevista = telaRevista;
         }
 
-        public void ExibirCabecalho()
-        {
-            Console.Clear();
-            Console.WriteLine("----------------------------");
-            Console.WriteLine();
-            Console.WriteLine("Gerenciador de Emprestimos");
-            Console.WriteLine();
-            Console.WriteLine("----------------------------");
+        
 
-        }
-
-        public char ApresentarMenu()
+        public override char ApresentarMenu()
         {
             ExibirCabecalho();
 
@@ -43,9 +37,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             Console.WriteLine("2 - Editar Emprestimos");
             Console.WriteLine("3 - Excluir Emprestimos");
             Console.WriteLine("4 - Visualizar Emprestimos");
-            Console.WriteLine("5 - Visualizar Revistas");
-            Console.WriteLine("6 - Visualizar Amigos");
-            Console.WriteLine("7 - Registrar Devolução");
+            Console.WriteLine("5 - Registrar Devolução");
 
 
             Console.WriteLine();
@@ -57,7 +49,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             return opcaoEscolhida;
         }
 
-        public void CadastrarEmprestimo()
+        public override void CadastrarRegistro()
         {
             ExibirCabecalho();
 
@@ -68,12 +60,12 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
 
 
             Console.WriteLine();
-            Emprestimo novoEmprestimo = ObterDadosEmprestimo();
+            Emprestimo novoEmprestimo = (Emprestimo)ObterDados();
 
-            repositorioEmprestimo.CadastrarEmprestimo(novoEmprestimo);
+            repositorioEmprestimo.CadastrarRegistro(novoEmprestimo);
         }
 
-        public void EditarEmprestimo()
+        public override void EditarRegistro()
         {
             ExibirCabecalho();
 
@@ -83,14 +75,14 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             Console.WriteLine("----------------------------");
             Console.WriteLine();
 
-            VisualizarEmprestimo(true);
+            VisualizarRegistros(true);
 
             Console.WriteLine("Digite o ID do Emprestimo que deseja selecionar");
             int idEmprestimo = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine();
-            Emprestimo emprestimoEditado = ObterDadosEmprestimo();
+            Emprestimo emprestimoEditado = (Emprestimo)ObterDados();
 
-            bool conseguiuEditar = repositorioEmprestimo.EditarEmprestimo(idEmprestimo, emprestimoEditado);
+            bool conseguiuEditar = repositorioEmprestimo.EditarRegistro(idEmprestimo, emprestimoEditado);
 
             if (!conseguiuEditar)
             {
@@ -99,7 +91,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             Console.WriteLine("O registo foi editado com sucesso");
 
         }
-        public void ExcluirEmprestimo()
+        public override void ExcluirRegistro()
         {
             ExibirCabecalho();
 
@@ -109,13 +101,13 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             Console.WriteLine("----------------------------");
             Console.WriteLine();
 
-            VisualizarEmprestimo(true);
+            VisualizarRegistros(true);
 
             Console.WriteLine("Digite o ID do emprestimo que deseja Excluir");
             int idEmprestimo = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine();
 
-            bool conseguiuExcluir = repositorioEmprestimo.ExcluirEmprestimo(idEmprestimo);
+            bool conseguiuExcluir = repositorioEmprestimo.ExcluirRegistro(idEmprestimo);
 
 
             if (!conseguiuExcluir)
@@ -126,7 +118,10 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
 
         }
 
-        public void VisualizarEmprestimo(bool exibirTitulo)
+        
+        
+
+        public override void VisualizarRegistros(bool exibirTitulo)
         {
             if (exibirTitulo)
                 ExibirCabecalho();
@@ -142,15 +137,17 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             "Id", "Amigo", "Revista", "Data da Devolução"
                 );
 
-            Emprestimo[] emprestimoCadastrado = repositorioEmprestimo.SelecionarEmprestimo();
-            Amigo[] amigoCadastrado = repositorioAmigo.SelecionarAmigo();
-            Revista[] revistaCadastrada = repositorioRevista.SelecionarRevista();
+            ArrayList emprestimoCadastrado = repositorioEmprestimo.SelecionarRegistros();
+            ArrayList amigoCadastrado = repositorioAmigo.SelecionarRegistros();
+            ArrayList revistaCadastrada = repositorioRevista.SelecionarRegistros();
 
-            for (int i = 0; i < emprestimoCadastrado.Length; i++)
+            for (int i = 0; i < emprestimoCadastrado.Count; i++)
             {
-                Emprestimo e = emprestimoCadastrado[i];
-                Amigo a = amigoCadastrado[i];
-                Revista r = revistaCadastrada[i];
+                Emprestimo e = (Emprestimo)emprestimoCadastrado[i]!;
+
+                Amigo a = (Amigo)amigoCadastrado[i]!;
+
+                Revista r = (Revista)revistaCadastrada[i]!;
 
                 if (e == null) continue;
 
@@ -158,40 +155,42 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
                     "{0, -10} | {1, -25} | {2, -25} | {3, -20} ",
                     e.Id, a.Nome, r.Titulo, e.ObterDataDevolucao()
                     );
-
-
             }
             Console.WriteLine();
 
             Notificador.ExibirMensagem("Pressione ENTER para continuar", ConsoleColor.DarkYellow);
         }
 
-        public Emprestimo ObterDadosEmprestimo()
+        public override EntidadeBase ObterDados()
         {
-            telaAmigo.VisualizarAmigo(false);
+            telaAmigo.VisualizarRegistros(false);
 
             Console.Write("Digite o id do amigo: ");
             int idAmigo = Convert.ToInt32(Console.ReadLine());
-            Amigo amigo = repositorioAmigo.SelecionarPorId(idAmigo);
+            Amigo amigo = (Amigo)repositorioAmigo.SelecionarRegistroPorId(idAmigo);
 
             Console.Clear();
-            telaRevista.VisualizarRevista(false);
+            telaRevista.VisualizarRegistros(false);
 
             Console.WriteLine("Digite o Id da revista que será Emprestada");
             int idRevista = Convert.ToInt32(Console.ReadLine());
-            Revista revista = repositorioRevista.SelecionarPorId(idRevista);
+            Revista revista = (Revista)repositorioRevista.SelecionarRegistroPorId(idRevista);
 
 
             Console.Clear();
 
             Console.WriteLine("Digite a Data que a revista foi pega");
-            DateTime dataEmprestimo = DateTime.Parse(Console.ReadLine()); 
-            
+            DateTime dataEmprestimo = DateTime.Parse(Console.ReadLine());
+
 
             Emprestimo emprestimo = new Emprestimo(amigo, revista);
 
             return emprestimo;
         }
 
+        public void RegistrarDevolucao()
+        {
+            
+        }
     }
 }

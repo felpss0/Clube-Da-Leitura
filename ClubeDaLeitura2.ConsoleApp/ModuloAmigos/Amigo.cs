@@ -1,11 +1,12 @@
-﻿namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+
+namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
 {
-    public class Amigo
+    public class Amigo : EntidadeBase
     {
-        public int Id;
-        public string Nome;
-        public string Responsavel;
-        public string Telefone;
+        public string Nome { get; set; }
+        public string Responsavel { get; set; }
+        public string Telefone { get; set; }
 
         public Amigo(string nome, string responsavel, string telefone)
         {
@@ -14,8 +15,16 @@
             Telefone = telefone;
         }
 
+        public override void AtualizarRegistro(EntidadeBase registroAtualizado)
+        {
+            Amigo amigoAtualizado = (Amigo)registroAtualizado;
 
-        public string ValidarAmigo()
+            Nome = amigoAtualizado.Nome;
+            Responsavel = amigoAtualizado.Responsavel;
+            Telefone = amigoAtualizado.Telefone;
+        }
+
+        public override string Validar()
         {
             string erros = "";
 

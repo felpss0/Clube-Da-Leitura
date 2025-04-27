@@ -1,21 +1,34 @@
-﻿using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
+using System.Collections;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
 {
-    public class Caixa
+    public class Caixa : EntidadeBase
     {
-        public Revista[] revistas;
+        public ArrayList revistas;
 
-        public int Id;
+        
         public string Etiqueta;
         public string Cor;
         public int DiasDeEmprestimo;
 
-        public Caixa(string etiqueta, string cor, int diasDeEmprestimo)
+
+
+        public Caixa(string etiqueta, string cor )
         {
             Etiqueta = etiqueta;
             Cor = cor;
-            DiasDeEmprestimo = diasDeEmprestimo;
+            
+        }
+
+        public override void AtualizarRegistro(EntidadeBase registroEditado)
+        {
+            Caixa caixaEditada = (Caixa)registroEditado;
+
+            Etiqueta = caixaEditada.Etiqueta;
+            Cor = caixaEditada.Cor;
+            
         }
 
         public int ObterDiasEmprestimo() 
@@ -25,7 +38,10 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
             
             return DiasDeEmprestimo = 7;
         }
-        
 
+        public override string Validar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

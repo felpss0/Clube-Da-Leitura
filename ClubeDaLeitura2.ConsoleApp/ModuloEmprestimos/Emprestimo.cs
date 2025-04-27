@@ -1,11 +1,14 @@
-﻿using ClubeDaLeitura2.ConsoleApp.ModuloAmigos;
+﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.ModuloAmigos;
+using ClubeDaLeitura2.ConsoleApp.ModuloCaixas;
 using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
+using System.Runtime.ConstrainedExecution;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
 {
-    public class Emprestimo
+    public class Emprestimo : EntidadeBase
     {
-        public int Id;
+        
         public Amigo Amigo;
         public Revista Revista;
         public DateTime DataEmprestimo;
@@ -42,7 +45,18 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloEmprestimos
             DataDevolucao = DataEmprestimo.AddDays(qtdDiasEmprestimo);
         }
 
+        public override void AtualizarRegistro(EntidadeBase registroEditado)
+        {
+            Emprestimo emprestimoEditado = (Emprestimo)registroEditado;
 
+            Amigo = emprestimoEditado.Amigo;
+            Revista = emprestimoEditado.Revista;
+            
+        }
 
+        public override string Validar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,28 +1,21 @@
 ﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.Util;
+using System.Collections;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
 {
-    public class TelaAmigo
+    public class TelaAmigo : TelaBase
     {
 
         public RepositorioAmigo repositorioAmigo;
 
-        public TelaAmigo(RepositorioAmigo repositorioAmigo)
+        public TelaAmigo(RepositorioAmigo repositorioAmigo) : base ("Amigo", repositorioAmigo)
         {
             this.repositorioAmigo = repositorioAmigo;
         }
-        public void ExibirCabecalho()
-        {
-            Console.Clear();
-            Console.WriteLine("----------------------------");
-            Console.WriteLine();
-            Console.WriteLine("Gerenciador de Amigos");
-            Console.WriteLine();
-            Console.WriteLine("----------------------------");
+       
 
-        }
-
-        public char ApresentarMenu()
+        public override char ApresentarMenu()
         {
             ExibirCabecalho();
 
@@ -42,7 +35,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
             return opcaoEscolhida;
         }
 
-        public void CadastrarAmigo()
+        public override void CadastrarRegistro()
         {
             ExibirCabecalho();
 
@@ -54,12 +47,12 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
 
             Console.WriteLine();
 
-            Amigo novoAmigo = ObterDadosAmigo();
+            Amigo novoAmigo = (Amigo)ObterDados();
 
-            repositorioAmigo.CadastrarAmigo(novoAmigo);
+            repositorioAmigo.CadastrarRegistro(novoAmigo);
         }
 
-        public void EditarAmigo()
+        public override void EditarRegistro()
         {
             ExibirCabecalho();
 
@@ -69,16 +62,16 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
             Console.WriteLine("----------------------------");
             Console.WriteLine();
 
-            VisualizarAmigo(true);
+            VisualizarRegistros(true);
 
             Console.WriteLine("Digite o ID do amigo que deseja selecionar");
             int idAmigo = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine();
 
-            Amigo amigoEditado = ObterDadosAmigo();
+            Amigo amigoEditado = (Amigo)ObterDados();
 
-            bool conseguiuEditar = repositorioAmigo.EditarAmigo(idAmigo, amigoEditado);
+            bool conseguiuEditar = repositorioAmigo.EditarRegistro(idAmigo, amigoEditado);
 
             if (!conseguiuEditar)
             {
@@ -87,7 +80,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
             Console.WriteLine("O registo foi editado com sucesso");
 
         }
-        public void ExcluirAmigo()
+        public override void ExcluirRegistro()
         {
             ExibirCabecalho();
 
@@ -97,14 +90,14 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
             Console.WriteLine("----------------------------");
             Console.WriteLine();
 
-            VisualizarAmigo(true);
+            VisualizarRegistros(true);
 
             Console.WriteLine("Digite o ID do amigo que deseja selecionar");
             int idAmigo = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine();
 
-            bool conseguiuExcluir = repositorioAmigo.ExcluirAmigo(idAmigo);
+            bool conseguiuExcluir = repositorioAmigo.ExcluirRegistro(idAmigo);
 
 
             if (!conseguiuExcluir)
@@ -115,7 +108,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
 
         }
 
-        public void VisualizarAmigo(bool exibirTitulo)
+        public override void VisualizarRegistros(bool exibirTitulo)
         {
             if (exibirTitulo)
                 ExibirCabecalho();
@@ -131,14 +124,10 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
                 "Id", "Nome Amigo", "Nome Responsavel", "Telefone"
                 );
 
-            Amigo[] amigosCadastrados = repositorioAmigo.SelecionarAmigo();
+            ArrayList registros = repositorioAmigo.SelecionarRegistros();
 
-            for (int i = 0; i < amigosCadastrados.Length; i++)
+            foreach (Amigo a in registros)
             {
-                Amigo a = amigosCadastrados[i];
-
-                if (a == null) continue;
-
                 Console.WriteLine(
                     "{0, -10} | {1, -20} | {2, -20} | {3, -20} ",
                     a.Id, a.Nome, a.Responsavel, a.Telefone
@@ -152,7 +141,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
         }
 
 
-        public Amigo ObterDadosAmigo()
+        public override EntidadeBase ObterDados()
         {
             Console.WriteLine("Digite o nome do Amigo");
             string nome = Console.ReadLine();
@@ -168,6 +157,6 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloAmigos
             return amigo;
         }
 
-
+        
     }
 }

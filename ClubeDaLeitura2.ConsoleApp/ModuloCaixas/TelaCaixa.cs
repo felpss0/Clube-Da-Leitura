@@ -1,28 +1,24 @@
 ﻿using ClubeDaLeitura2.ConsoleApp.Compartilhado;
+using ClubeDaLeitura2.ConsoleApp.ModuloRevistas;
+using ClubeDaLeitura2.ConsoleApp.Util;
+using System.Collections;
 
 namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
 {
-    class TelaCaixa
+    class TelaCaixa : TelaBase
     {
         public RepositorioCaixa repositorioCaixa;
+        public RepositorioRevista repositorioRevista;
 
-        public TelaCaixa(RepositorioCaixa repositorioCaixa)
+        public TelaCaixa(RepositorioCaixa repositorioCaixa, RepositorioRevista repositorioRevista) : base("Caixa", repositorioCaixa)
         {
             this.repositorioCaixa = repositorioCaixa;
+            this.repositorioRevista = repositorioRevista;
         }
 
-        public void ExibirCabecalho()
-        {
-            Console.Clear();
-            Console.WriteLine("----------------------------");
-            Console.WriteLine();
-            Console.WriteLine("Gerenciador de Caixas");
-            Console.WriteLine();
-            Console.WriteLine("----------------------------");
+        
 
-        }
-
-        public char ApresentarMenu()
+        public override char ApresentarMenu()
         {
             ExibirCabecalho();
 
@@ -41,7 +37,7 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
             return opcaoEscolhida;
         }
 
-        public void CadastrarCaixa()
+        public override void CadastrarRegistro()
         {
             ExibirCabecalho();
 
@@ -52,13 +48,13 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
 
 
             Console.WriteLine();
-            Caixa novaCaixa = ObterDadosCaixa();
+            Caixa novaCaixa = (Caixa)ObterDados();
             novaCaixa.ObterDiasEmprestimo();
 
-            repositorioCaixa.CadastrarCaixa(novaCaixa);
+            repositorioCaixa.CadastrarRegistro(novaCaixa);
         }
 
-        public void EditarCaixa()
+        public override void EditarRegistro()
         {
             ExibirCabecalho();
 
@@ -68,16 +64,16 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
             Console.WriteLine("----------------------------");
             Console.WriteLine();
 
-            VisualizarCaixa(true);
+            VisualizarRegistros(true);
 
             Console.WriteLine("Digite o ID da caixa que deseja selecionar");
             int idCaixa = Convert.ToInt32(Console.ReadLine());
 
             Console.WriteLine();
 
-            Caixa caixaEditada = ObterDadosCaixa();
+            Caixa caixaEditada = (Caixa)ObterDados();
 
-            bool conseguiuEditar = repositorioCaixa.EditarCaixa(idCaixa, caixaEditada);
+            bool conseguiuEditar = repositorioCaixa.EditarRegistro(idCaixa, caixaEditada);
 
             if (!conseguiuEditar)
             {
@@ -86,34 +82,8 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
             Console.WriteLine("O registo foi editado com sucesso");
 
         }
-        public void ExcluirCaixa()
-        {
-            ExibirCabecalho();
 
-            Console.WriteLine();
-            Console.WriteLine("----------------------------");
-            Console.WriteLine("Editando caixa");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine();
-
-            VisualizarCaixa(true);
-
-            Console.WriteLine("Digite o ID da caixa que deseja selecionar");
-            int idCaixa = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine();
-
-            bool conseguiuExcluir = repositorioCaixa.ExcluirCaixa(idCaixa);
-
-
-            if (!conseguiuExcluir)
-            {
-                Console.WriteLine("Houve um erro durante a exclusao do registro...");
-            }
-            Console.WriteLine("O registo foi excluido com sucesso");
-
-        }
-
-        public void VisualizarCaixa(bool exibirTitulo)
+        public override void VisualizarRegistros(bool exibirTitulo)
         {
             if (exibirTitulo)
                 ExibirCabecalho();
@@ -129,38 +99,59 @@ namespace ClubeDaLeitura2.ConsoleApp.ModuloCaixas
                 "Id", "Etiqueta", "Cor", "Dias de Emprestimo"
                 );
 
-            Caixa[] caixasCadastradas = repositorioCaixa.SelecionarCaixa();
+            ArrayList registros = repositorioCaixa.SelecionarRegistros();
 
-            for (int i = 0; i < caixasCadastradas.Length; i++)
+
+            foreach (Caixa c in registros)
             {
-                Caixa c = caixasCadastradas[i];
-
-                if (c == null) continue;
-
                 Console.WriteLine(
                     "{0, -10} | {1, -20} | {2, -20} | {3, -20} ",
                     c.Id, c.Etiqueta, c.Cor, c.DiasDeEmprestimo
                     );
-
-
             }
+
+
             Console.WriteLine();
 
             Notificador.ExibirMensagem("Pressione ENTER para continuar", ConsoleColor.DarkYellow);
         }
+        public override void ExcluirRegistro()
+        {
+            ExibirCabecalho();
 
-        public Caixa ObterDadosCaixa()
+            Console.WriteLine();
+            Console.WriteLine("----------------------------");
+            Console.WriteLine("Editando caixa");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine();
+
+            VisualizarRegistros(true);
+
+            Console.WriteLine("Digite o ID da caixa que deseja selecionar");
+            int idCaixa = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
+
+            bool conseguiuExcluir = repositorioCaixa.ExcluirRegistro(idCaixa);
+
+
+            if (!conseguiuExcluir)
+            {
+                Console.WriteLine("Houve um erro durante a exclusao do registro...");
+            }
+            Console.WriteLine("O registo foi excluido com sucesso");
+
+        }
+
+        public override EntidadeBase ObterDados()
         {
             Console.WriteLine("Digite o nome Etiqueta da Caixa");
             string etiqueta = Console.ReadLine();
 
-            Console.WriteLine("Digite a Cor da Caixa (Vermelho e Roxo para Caixas Raras, qualquer outra cor será definida como Comum)");
+            Console.WriteLine("Digite a Cor da Caixa (Vermelha ou Roxo para Raridade Alta)");
             string cor = Console.ReadLine();
 
-            Console.WriteLine("Digite quantos dias de emprestimo a caixa vai ter");
-            int diasDeEmprestimo = Convert.ToInt32(Console.ReadLine());
 
-            Caixa caixa = new Caixa(etiqueta, cor, diasDeEmprestimo);
+            Caixa caixa = new Caixa(etiqueta, cor);
 
             return caixa;
         }
